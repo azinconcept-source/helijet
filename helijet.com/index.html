@@ -2495,17 +2495,26 @@ document.addEventListener("DOMContentLoaded", function() {
 // ── Search button navigation ──
 (function() {
   function getSearchParams() {
-    // Try to read the BlueSkyBooking widget fields
-    var fromEl = document.querySelector('.blueskybooking-widget-departure, [name="departure"], [id*="departure"], [placeholder*="From"]');
-    var toEl   = document.querySelector('.blueskybooking-widget-destination, [name="destination"], [id*="destination"], [placeholder*="To"]');
-    var dateEl = document.querySelector('.blueskybooking-widget-date, [name="departureDate"], input[type="date"]');
-    var from = fromEl ? fromEl.value : '';
-    var to   = toEl   ? toEl.value   : '';
+    var fromEl = document.getElementById('dep-select');
+    var toEl   = document.getElementById('arr-select');
+    var dateEl = document.querySelector('input[type="date"]');
+    
+    var paxEls = document.querySelectorAll('.passengerCount');
+    var totalPax = 0;
+    paxEls.forEach(function(el) {
+       totalPax += parseInt(el.textContent) || 0;
+    });
+
+    var from = fromEl ? fromEl.options[fromEl.selectedIndex].text : '';
+    var to   = toEl   ? toEl.options[toEl.selectedIndex].text : '';
     var date = dateEl ? dateEl.value : '';
+    
     var params = new URLSearchParams();
-    if (from) params.set('from', from);
-    if (to)   params.set('to', to);
+    if (from && from !== 'Departure Location') params.set('from', from);
+    if (to && to !== 'Arrival Location') params.set('to', to);
     if (date) params.set('day', date);
+    if (totalPax > 0) params.set('pax', totalPax);
+    
     return params.toString();
   }
 

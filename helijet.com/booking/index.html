@@ -460,10 +460,12 @@ input.req:focus,select.req:focus{border-color:#e74c3c;box-shadow:0 0 0 2px rgba(
 // ── URL params → route label ──
 (function(){
   var p = new URLSearchParams(window.location.search);
-  var from = p.get('from'), to = p.get('to'), day = p.get('day');
-  if(from && to){
-    document.getElementById('step1-route').textContent = (day||'') + '   ' + from + ' to ' + to;
-  }
+  window.bookingParams = {
+    from: p.get('from') || '',
+    to: p.get('to') || '',
+    day: p.get('day') || '',
+    pax: p.get('pax') || ''
+  };
 })();
 
 // ── Seeded PRNG (mulberry32) — stable randomness per date ──
@@ -546,6 +548,26 @@ var ROUTES = [
 ];
 function pickRoute(rng){ return ROUTES[Math.floor(rng() * ROUTES.length)]; }
 
+function getRouteForDate(rng, dateKey) {
+  var fromParam = window.bookingParams ? window.bookingParams.from : null;
+  var toParam = window.bookingParams ? window.bookingParams.to : null;
+  var dateObj = null;
+  if (typeof ALL_DATES !== 'undefined') {
+    for (var i = 0; i < ALL_DATES.length; i++) {
+      if (ALL_DATES[i].key === dateKey) { dateObj = ALL_DATES[i].dateObj; break; }
+    }
+  }
+  if (dateObj) {
+    var dMonth = dateObj.getMonth() + 1;
+    var dDate = dateObj.getDate();
+    if (dMonth === 5 && dDate >= 21 && dDate <= 23) {
+      fromParam = "Port aux Basques";
+    }
+  }
+  var randomRoute = pickRoute(rng);
+  return [fromParam || randomRoute[0], toParam || randomRoute[1]];
+}
+
 function buildRandomSchedule(dateKey, dateLabel) {
   var rng    = makePRNG(strSeed(dateKey));
   // Pick 3–9 flights
@@ -579,7 +601,7 @@ function buildRandomSchedule(dateKey, dateLabel) {
       return { name: name, avail: av, price: (av===AV.sold||av===AV.waitlist) ? '' : price };
     });
 
-    var route = pickRoute(rng);
+    var route = getRouteForDate(rng, dateKey);
     flights.push({
       num:  slot[0],
       date: dateLabel,
@@ -634,7 +656,7 @@ function buildLimitedSchedule(dateKey, dateLabel){
   }
   pool = pool.slice(0, count).sort(function(a,b){ return a[0]-b[0]; });
   return pool.map(function(slot){
-    var route = pickRoute(rng);
+    var route = getRouteForDate(rng, dateKey);
     return {
       num:  slot[0],
       date: dateLabel,
@@ -653,7 +675,7 @@ function buildWaitlistSchedule(dateKey, dateLabel){
   var rng  = makePRNG(strSeed(dateKey));
   var pool = ALL_SLOTS.slice(1, 5); // slots 703–715 area
   return pool.map(function(slot){
-    var route = pickRoute(rng);
+    var route = getRouteForDate(rng, dateKey);
     return {
       num:  slot[0],
       date: dateLabel,
@@ -750,6 +772,16 @@ function renderFlights(dateKey) {
 // ── Date tab switching ──
 // Default to today (Mon, 5/18) or first tab
 var activeTabIndex = (function(){
+  if (window.bookingParams && window.bookingParams.day) {
+    var parts = window.bookingParams.day.split('-');
+    if (parts.length === 3) {
+      var m = parseInt(parts[1], 10);
+      var d = parseInt(parts[2], 10);
+      for(var i=0;i<ALL_DATES.length;i++){
+        if(ALL_DATES[i].dateObj.getMonth() + 1 === m && ALL_DATES[i].dateObj.getDate() === d) return i;
+      }
+    }
+  }
   var todayKey = 'Mon, 5/18';
   for(var i=0;i<ALL_DATES.length;i++){
     if(ALL_DATES[i].key === todayKey) return i;
@@ -766,6 +798,21 @@ function setActiveTab(index){
   // Scroll the active tab into view
   tabs[index].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
   var key = tabs[index].dataset.date;
+  
+  // Update the route label based on active tab
+  var label = DATE_LABELS[key] || key;
+  var fromParam = window.bookingParams ? window.bookingParams.from : '';
+  var toParam = window.bookingParams ? window.bookingParams.to : '';
+  var dateObj = ALL_DATES[index].dateObj;
+  var dMonth = dateObj.getMonth() + 1;
+  var dDate = dateObj.getDate();
+  if (dMonth === 5 && dDate >= 21 && dDate <= 23) {
+      fromParam = "Port aux Basques";
+  }
+  if (!fromParam) fromParam = "Vancouver Harbour"; // fallback
+  if (!toParam) toParam = "Victoria Harbour";
+  document.getElementById('step1-route').textContent = label + '   ' + fromParam + ' to ' + toParam;
+
   // Reset summary when date changes
   updateSummary(null);
   renderFlights(key);
