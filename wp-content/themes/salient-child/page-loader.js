@@ -105,7 +105,7 @@
 
     setTimeout(function () {
       window.location.href = url;
-    }, 12000);
+    }, 800);
   }
 
   /* ── Intercept clicks ── */
