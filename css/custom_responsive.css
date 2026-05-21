@@ -24,3 +24,38 @@ body { font-size: 1rem; line-height: 1.5; }
 @media (max-width: 600px) {
   #sidebar, .sidebar { display: none; }
 }
+@media (max-width: 600px) {
+  body { font-size: 0.875rem; }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  .nectar-button { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
+}
+@media (max-width: 600px) {
+  /* Search widget vertical stack */
+  #search-box .inner-wrap,
+  #search-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #search-box input[type="text"],
+  #search-box input[type="date"],
+  #search-box select,
+  #search-box .search-box__button {
+    width: 100% !important;
+    margin: 4px 0;
+    box-sizing: border-box;
+  }
+  #search-box .search-box__button {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 600px) {
+  .wpb_text_column h2 {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
