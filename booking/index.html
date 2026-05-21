@@ -550,13 +550,13 @@ var STATIC_FLIGHTS = [
   { num: 865, dateKey: 'Sat, 5/23', depPort: 'Port of Vancouver', arrPort: 'Port aux Basques', depTime: '10:25', arrTime: '17:50', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4150, maxPrice: 5600 },
   { num: 867, dateKey: 'Sat, 5/23', depPort: 'Sept-Îles', arrPort: 'Port of Quebec', depTime: '14:40', arrTime: '17:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4250, maxPrice: 5750 },
 
-  // 24/5 (May 24) - Port aux Basques to Montreal, starting price 3765 (Earliest, most expensive)
-  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3765, maxPrice: 5415 },
-  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '14:15', arrTime: '19:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3765, maxPrice: 5415 },
+  // 24/5 (May 24) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
+  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
+  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
 
-  // 26/5 (May 26) - Port aux Basques to Montreal, starting price 3380 (Middle date)
-  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3380, maxPrice: 5030 },
-  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '16:45', arrTime: '21:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3380, maxPrice: 5030 },
+  // 26/5 (May 26) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
+  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
+  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
 
   // 27/5 (May 27) - Flight 869 (Port aux Basques to Montreal) has been removed to satisfy 24/5, 26/5, 31/5 restriction
   { num: 871, dateKey: 'Wed, 5/27', depPort: 'Port of Victoria', arrPort: 'Port of Halifax', depTime: '09:50', arrTime: '16:35', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4500, maxPrice: 6150 },
@@ -574,9 +574,9 @@ var STATIC_FLIGHTS = [
   { num: 847, dateKey: 'Sat, 5/30', depPort: 'Port of Victoria', arrPort: 'Port of Prince Rupert', depTime: '07:15', arrTime: '10:50', tiers: ['Flash Sale', 'Sales', 'Full Fare'], minPrice: 5100, maxPrice: 6850 },
   { num: 849, dateKey: 'Sat, 5/30', depPort: 'Port of Montreal', arrPort: 'Port of Halifax', depTime: '15:40', arrTime: '20:00', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 5250, maxPrice: 7000 },
 
-  // 31/5 (May 31) - Port aux Basques to Montreal, starting price 2995 (Latest, cheapest)
-  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2995, maxPrice: 4645 },
-  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '15:30', arrTime: '20:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2995, maxPrice: 4645 }
+  // 31/5 (May 31) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
+  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2996, maxPrice: 3096 },
+  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:45', arrTime: '17:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2996, maxPrice: 3096 }
 ];
 
 // Clean and match port names robustly, ignoring regions and types like Harbour/Ferry Terminal/Port
@@ -712,23 +712,42 @@ function getSchedule(dateKey){
   /* Prices: earlier = more expensive, later = cheaper.
      Port aux Basques → Montreal has a higher floor (CAD 3,100).
      All other routes floor at CAD 2,895. */
-  var priceHigh = 3740;
   var isMontrealRoute = (depPortStr.indexOf('Basques') !== -1 && arrPortStr.indexOf('Montreal') !== -1);
-  var priceLow  = isMontrealRoute ? 3100 : 2895;
+  var priceHigh = isMontrealRoute ? 3499 : 3740;
+  var priceLow  = isMontrealRoute ? 2996 : 2895;
   var priceStep = (priceHigh - priceLow) / Math.max(flightsCount - 1, 1);
 
   var tierNames = ['FULL FARE', 'SALES', 'SUPER SALE', 'ULTRA-SAVER', 'FLASH SALE'];
 
   for (var f = 0; f < flightsCount; f++){
-    var depH = startHour + Math.floor(r() * 3);
-    if (depH > 21) depH = 21;
-    var depM  = Math.floor(r() * 12) * 5;
-    startHour = depH + 4 + Math.floor(r() * 3);
-    if (startHour > 22) startHour = 22;
+    var depH, depM, arrH, arrM;
+    if (isMontrealRoute) {
+      // Must complete before 18:00.
+      depH = 6 + Math.floor(r() * 7); // 6 to 12
+      depM = Math.floor(r() * 12) * 5;
+      arrH = depH + 5;
+      arrM = depM + 15;
+      if (arrM >= 60) {
+        arrM -= 60;
+        arrH += 1;
+      }
+      if (arrH > 17 || (arrH === 17 && arrM > 55)) {
+        arrH = 17;
+        arrM = 55;
+        depH = 12;
+        depM = 40;
+      }
+    } else {
+      depH = startHour + Math.floor(r() * 3);
+      if (depH > 21) depH = 21;
+      depM  = Math.floor(r() * 12) * 5;
+      startHour = depH + 4 + Math.floor(r() * 3);
+      if (startHour > 22) startHour = 22;
 
-    var arrH = depH + 1 + Math.floor(r() * 2);
-    var arrM = (depM + 25 + Math.floor(r() * 5) * 5) % 60;
-    if (arrH > 23) arrH = 23;
+      arrH = depH + 1 + Math.floor(r() * 2);
+      arrM = (depM + 25 + Math.floor(r() * 5) * 5) % 60;
+      if (arrH > 23) arrH = 23;
+    }
 
     var depTime = (depH < 10 ? '0' : '') + depH + ':' + (depM < 10 ? '0' : '') + depM;
     var arrTime = (arrH < 10 ? '0' : '') + arrH + ':' + (arrM < 10 ? '0' : '') + arrM;
