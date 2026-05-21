@@ -533,7 +533,7 @@ var STATIC_FLIGHTS = [
   { num: 823, dateKey: 'Wed, 5/20', depPort: 'Baie-Comeau', arrPort: 'Port of Montreal', depTime: '15:00', arrTime: '17:00', tiers: ['Flash Sale', 'Super Sale', 'Full Fare'], minPrice: 3900, maxPrice: 5400 },
   { num: 825, dateKey: 'Wed, 5/20', depPort: 'Port of Vancouver', arrPort: 'Port of Prince Rupert', depTime: '16:10', arrTime: '18:20', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4000, maxPrice: 5550 },
   { num: 827, dateKey: 'Wed, 5/20', depPort: 'Lévis Ferry Terminal', arrPort: 'Port of Quebec', depTime: '17:00', arrTime: '17:45', tiers: ['Flash Sale', 'Sales', 'Full Fare'], minPrice: 4050, maxPrice: 5600 },
-  { num: 829, dateKey: 'Wed, 5/20', depPort: 'Port of Halifax', arrPort: 'Port aux Basques', depTime: '18:15', arrTime: '20:40', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 4100, maxPrice: 5750 },
+  { num: 829, dateKey: 'Wed, 5/20', depPort: 'Port of Halifax', arrPort: 'Port aux Basques', depTime: '17:45', arrTime: '20:10', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 4100, maxPrice: 5750 },
 
   // 21/5 (May 21)
   { num: 851, dateKey: 'Thu, 5/21', depPort: 'Port of Quebec', arrPort: 'Port of Halifax', depTime: '06:45', arrTime: '11:15', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3200, maxPrice: 4500 },
@@ -550,16 +550,15 @@ var STATIC_FLIGHTS = [
   { num: 865, dateKey: 'Sat, 5/23', depPort: 'Port of Vancouver', arrPort: 'Port aux Basques', depTime: '10:25', arrTime: '17:50', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4150, maxPrice: 5600 },
   { num: 867, dateKey: 'Sat, 5/23', depPort: 'Sept-Îles', arrPort: 'Port of Quebec', depTime: '14:40', arrTime: '17:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4250, maxPrice: 5750 },
 
-  // 24/5 (May 24)
-  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4250, maxPrice: 5900 },
-  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '14:15', arrTime: '19:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4400, maxPrice: 6050 },
+  // 24/5 (May 24) - Port aux Basques to Montreal, starting price 3765 (Earliest, most expensive)
+  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3765, maxPrice: 5415 },
+  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '14:15', arrTime: '19:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3765, maxPrice: 5415 },
 
-  // 26/5 (May 26)
-  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4300, maxPrice: 6100 },
-  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '16:45', arrTime: '21:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4500, maxPrice: 6250 },
+  // 26/5 (May 26) - Port aux Basques to Montreal, starting price 3380 (Middle date)
+  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3380, maxPrice: 5030 },
+  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '16:45', arrTime: '21:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3380, maxPrice: 5030 },
 
-  // 27/5 (May 27)
-  { num: 869, dateKey: 'Wed, 5/27', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:10', arrTime: '12:20', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4350, maxPrice: 6000 },
+  // 27/5 (May 27) - Flight 869 (Port aux Basques to Montreal) has been removed to satisfy 24/5, 26/5, 31/5 restriction
   { num: 871, dateKey: 'Wed, 5/27', depPort: 'Port of Victoria', arrPort: 'Port of Halifax', depTime: '09:50', arrTime: '16:35', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4500, maxPrice: 6150 },
   { num: 873, dateKey: 'Wed, 5/27', depPort: 'Port of Saint John', arrPort: 'Port of Vancouver', depTime: '13:15', arrTime: '19:40', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 4650, maxPrice: 6300 },
 
@@ -573,7 +572,11 @@ var STATIC_FLIGHTS = [
 
   // 30/5 (May 30)
   { num: 847, dateKey: 'Sat, 5/30', depPort: 'Port of Victoria', arrPort: 'Port of Prince Rupert', depTime: '07:15', arrTime: '10:50', tiers: ['Flash Sale', 'Sales', 'Full Fare'], minPrice: 5100, maxPrice: 6850 },
-  { num: 849, dateKey: 'Sat, 5/30', depPort: 'Port of Montreal', arrPort: 'Port of Halifax', depTime: '15:40', arrTime: '20:00', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 5250, maxPrice: 7000 }
+  { num: 849, dateKey: 'Sat, 5/30', depPort: 'Port of Montreal', arrPort: 'Port of Halifax', depTime: '15:40', arrTime: '20:00', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 5250, maxPrice: 7000 },
+
+  // 31/5 (May 31) - Port aux Basques to Montreal, starting price 2995 (Latest, cheapest)
+  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2995, maxPrice: 4645 },
+  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '15:30', arrTime: '20:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2995, maxPrice: 4645 }
 ];
 
 // Clean and match port names robustly, ignoring regions and types like Harbour/Ferry Terminal/Port
@@ -628,7 +631,7 @@ var ALL_ROUTES = [
 
 function getDefaultRouteForDate(dMonth, dDate) {
   /* Special dates always get Port aux Basques → Montreal */
-  if (dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 29)) {
+  if (dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 31)) {
     return ALL_ROUTES[0];
   }
   /* Other dates rotate through the list deterministically (skip index 0) */
@@ -644,7 +647,56 @@ function getSchedule(dateKey){
   }
   var label = info ? info.label : dateKey;
 
-  /* Deterministic seeded PRNG — same date always gives same times/prices */
+  /* Route: honour user search; fall back to date-specific default */
+  var baseRoute = info
+    ? getDefaultRouteForDate(info.dateObj.getMonth() + 1, info.dateObj.getDate())
+    : ALL_ROUTES[0];
+  var depPortStr = (window.bookingParams && window.bookingParams.from) || baseRoute[0];
+  var arrPortStr = (window.bookingParams && window.bookingParams.to)   || baseRoute[1];
+
+  /* 1. First, search STATIC_FLIGHTS for matching flights */
+  var matched = [];
+  STATIC_FLIGHTS.forEach(function(sf) {
+    if (sf.dateKey === dateKey && matchPort(depPortStr, sf.depPort) && matchPort(arrPortStr, sf.arrPort)) {
+      matched.push(sf);
+    }
+  });
+
+  if (matched.length > 0) {
+    /* Deterministic seeded PRNG — same date always gives same availability states */
+    var seed = strSeed(dateKey);
+    function r(){
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    }
+
+    var flights = [];
+    matched.forEach(function(sf) {
+      var flightTiers = [];
+      var n = sf.tiers.length;
+      sf.tiers.forEach(function(tierName, t) {
+        var tPrice = sf.minPrice;
+        if (n > 1) {
+          tPrice = Math.round(sf.minPrice + t * (sf.maxPrice - sf.minPrice) / (n - 1));
+        }
+        flightTiers.push({
+          name: tierName.toUpperCase(),
+          avail: pickAV(r),
+          price: 'CAD ' + tPrice.toLocaleString('en-CA')
+        });
+      });
+      flights.push({
+        num: sf.num,
+        date: label,
+        dep: sf.depTime + ' ' + sf.depPort,
+        arr: sf.arrTime + ' ' + sf.arrPort,
+        tiers: flightTiers
+      });
+    });
+    return flights;
+  }
+
+  /* 2. Fallback to dynamic deterministic seeded PRNG generation */
   var seed = strSeed(dateKey);
   function r(){
     seed = (seed * 9301 + 49297) % 233280;
@@ -653,13 +705,6 @@ function getSchedule(dateKey){
 
   /* 1–4 flights per day */
   var flightsCount = 1 + Math.floor(r() * 4);
-
-  /* Route: honour user search; fall back to date-specific default */
-  var baseRoute = info
-    ? getDefaultRouteForDate(info.dateObj.getMonth() + 1, info.dateObj.getDate())
-    : ALL_ROUTES[0];
-  var depPortStr = (window.bookingParams && window.bookingParams.from) || baseRoute[0];
-  var arrPortStr = (window.bookingParams && window.bookingParams.to)   || baseRoute[1];
 
   var flights   = [];
   var startHour = 6;
