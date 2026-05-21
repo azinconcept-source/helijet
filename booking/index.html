@@ -274,31 +274,22 @@ input.req:focus,select.req:focus{border-color:#e74c3c;box-shadow:0 0 0 2px rgba(
           <input type="email" placeholder="email@company.com" class="req"/>
           <input type="date" placeholder="Date of Birth" class="req"/>
           <input type="tel" placeholder="Phone (xxx-xxx-xxxx)" class="req"/>
+          <input type="text" placeholder="Address"/>
+          <input type="text" placeholder="Nearest Airport"/>
         </div>
       </div>
 
       <div class="form-full">
         <div class="form-col">
-          <div class="row"><label>Name</label><select class="req"><option></option></select></div>
           <div class="row"><label>Company</label><input type="text"/></div>
-          <div class="row"><label>Address</label>
-            <div>
-              <input type="text" placeholder="Address" class="req" style="margin-bottom:6px"/>
-              <input type="text" placeholder="City" class="req" style="margin-bottom:6px"/>
-              <div style="display:flex;gap:8px;margin-bottom:6px">
-                <input type="text" placeholder="State" style="flex:1"/>
-                <input type="text" placeholder="Zip" style="flex:1"/>
-              </div>
-              <select><option>Canada</option><option>USA</option><option>Other</option></select>
-            </div>
-          </div>
+          <div class="row"><label>City</label><input type="text"/></div>
+          <div class="row"><label>State</label><input type="text"/></div>
+          <div class="row"><label>Zip</label><input type="text"/></div>
         </div>
         <div class="form-col">
-          <div class="row"><label>Business</label><input type="tel" placeholder="xxx-xxx-xxxx" class="req"/></div>
-          <div class="row"><label>Home</label><input type="tel" placeholder="xxx-xxx-xxxx" class="req"/></div>
-          <div class="row"><label>Mobile</label><input type="tel" placeholder="xxx-xxx-xxxx" class="req"/></div>
-          <div class="row"><label>Fax</label><input type="tel" placeholder="xxx-xxx-xxxx"/></div>
-          <div class="row"><label>Email</label><input type="email" placeholder="email@company.com" class="req"/></div>
+          <div class="row"><label>Business</label><input type="tel" placeholder="xxx-xxx-xxxx"/></div>
+          <div class="row"><label>Home</label><input type="tel" placeholder="xxx-xxx-xxxx"/></div>
+          <div class="row"><label>Email</label><input type="email" placeholder="email@company.com"/></div>
         </div>
       </div>
     </div>
@@ -622,127 +613,116 @@ var DATE_LABELS = {};
 ALL_DATES.forEach(function(d){ DATE_LABELS[d.key] = d.label; });
 
 var SCHEDULE_CACHE = {};
-function getSchedule(dateKey){
-  if(!SCHEDULE_CACHE[dateKey]){
-    var info = null;
-    for(var i=0;i<ALL_DATES.length;i++){
-      if(ALL_DATES[i].key === dateKey){ info = ALL_DATES[i]; break; }
-    }
-    var label = info ? info.label : dateKey;
-    var route = info ? getDefaultRouteForDate(info.dateObj.getMonth() + 1, info.dateObj.getDate()) : ["Port aux Basques", "Port of Montreal (Quebec)"];
-    var depPortStr = route[0];
-    var arrPortStr = route[1];
-    
-    var isMay24 = dateKey.indexOf('5/24') !== -1;
-    var isMay26 = dateKey.indexOf('5/26') !== -1;
-    
-    var baseMin = 0;
-    var forceWaitlist = false;
-    
-    if (isMay24) {
-      baseMin = 3100;
-    } else if (isMay26) {
-      baseMin = 2995;
-    } else {
-      forceWaitlist = true;
-    }
 
-    var seed = strSeed(dateKey);
-    function r() {
-      seed = (seed * 9301 + 49297) % 233280;
-      return seed / 233280;
-    }
-
-    var flightsCount = 1 + Math.floor(r() * 4);
-    var flights = [];
-    var startHour = 6;
-    
-    for (var f = 0; f < flightsCount; f++) {
-      var num = 700 + Math.floor(r() * 90);
-      var depH = startHour + Math.floor(r() * 2);
-      var depM = Math.floor(r() * 12) * 5;
-      startHour = depH + 2;
-      if (startHour > 22) startHour = 22;
-      
-      var arrH = depH + 1 + Math.floor(r() * 2);
-      var arrM = (depM + 25 + Math.floor(r() * 5)*5) % 60;
-      
-      var depTime = (depH < 10 ? '0' : '') + depH + ':' + (depM < 10 ? '0' : '') + depM;
-      var arrTime = (arrH < 10 ? '0' : '') + arrH + ':' + (arrM < 10 ? '0' : '') + arrM;
-
-      var tierNames = ['ULTRA-SAVER', 'SUPER SALE', 'SALES', 'FLASH SALE', 'FULL FARE'];
-      var numTiers = 3 + Math.floor(r() * 3);
-      var flightTiers = [];
-      
-      var currentMin = baseMin + Math.floor(r() * 100);
-      
-      for (var t = 0; t < numTiers; t++) {
-        var tName = tierNames[t % tierNames.length];
-        var tAvail = forceWaitlist ? AV.waitlist : pickAV(r);
-        var tPrice = currentMin + t * 80 + Math.floor(r() * 50);
-        
-        flightTiers.push({
-          name: tName,
-          avail: tAvail,
-          price: 'CAD ' + tPrice.toLocaleString('en-CA')
-        });
-      }
-      
-      flights.push({
-        num: num,
-        date: label,
-        dep: depTime + ' ' + depPortStr,
-        arr: arrTime + ' ' + arrPortStr,
-        tiers: flightTiers
-      });
-    }
-    
-    SCHEDULE_CACHE[dateKey] = flights;
-  }
-  return SCHEDULE_CACHE[dateKey];
-}
+var ALL_ROUTES = [
+  ["Port aux Basques", "Port of Montreal (Quebec)"],
+  ["Port of Vancouver", "Port of Victoria"],
+  ["Port of Quebec",   "Port of Halifax"],
+  ["Port of Montreal", "Port of Victoria"],
+  ["Port of Halifax",  "Port of Montreal"],
+  ["Sydney Harbour",   "Port of Saint John"],
+  ["Baie-Comeau",      "Port of Quebec"],
+  ["Port of Churchill","Port of Prince Rupert"],
+  ["Port of Thunder Bay","Port of Sault Ste. Marie"]
+];
 
 function getDefaultRouteForDate(dMonth, dDate) {
-  var d = new Date(2026, dMonth - 1, dDate);
-  var day = d.getDay(); // 0=Sun, 1=Mon, 2=Tue
-  if (day === 0 || day === 1 || day === 2) {
-    return ["Port aux Basques", "Port of Montreal (Quebec)"];
+  /* Special dates always get Port aux Basques → Montreal */
+  if (dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 29)) {
+    return ALL_ROUTES[0];
   }
-  var others = [
-    ["Port of Vancouver", "Port of Victoria"], // 3 Wed
-    ["Port of Quebec", "Port of Halifax"],     // 4 Thu
-    ["Port of Montreal", "Port of Victoria"],  // 5 Fri
-    ["Port of Halifax", "Port of Montreal"]    // 6 Sat
-  ];
-  return others[day - 3];
+  /* Other dates rotate through the list deterministically (skip index 0) */
+  var idx = 1 + ((dMonth * 100 + dDate) % (ALL_ROUTES.length - 1));
+  return ALL_ROUTES[idx];
+}
+
+function getSchedule(dateKey){
+  /* Always regenerate so port names reflect current bookingParams */
+  var info = null;
+  for(var i = 0; i < ALL_DATES.length; i++){
+    if(ALL_DATES[i].key === dateKey){ info = ALL_DATES[i]; break; }
+  }
+  var label = info ? info.label : dateKey;
+
+  /* Deterministic seeded PRNG — same date always gives same times/prices */
+  var seed = strSeed(dateKey);
+  function r(){
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  }
+
+  /* 1–4 flights per day */
+  var flightsCount = 1 + Math.floor(r() * 4);
+
+  /* Route: honour user search; fall back to date-specific default */
+  var baseRoute = info
+    ? getDefaultRouteForDate(info.dateObj.getMonth() + 1, info.dateObj.getDate())
+    : ALL_ROUTES[0];
+  var depPortStr = (window.bookingParams && window.bookingParams.from) || baseRoute[0];
+  var arrPortStr = (window.bookingParams && window.bookingParams.to)   || baseRoute[1];
+
+  var flights   = [];
+  var startHour = 6;
+
+  /* Prices: earlier = more expensive, later = cheaper.
+     Port aux Basques → Montreal has a higher floor (CAD 3,100).
+     All other routes floor at CAD 2,895. */
+  var priceHigh = 3740;
+  var isMontrealRoute = (depPortStr.indexOf('Basques') !== -1 && arrPortStr.indexOf('Montreal') !== -1);
+  var priceLow  = isMontrealRoute ? 3100 : 2895;
+  var priceStep = (priceHigh - priceLow) / Math.max(flightsCount - 1, 1);
+
+  var tierNames = ['FULL FARE', 'SALES', 'SUPER SALE', 'ULTRA-SAVER', 'FLASH SALE'];
+
+  for (var f = 0; f < flightsCount; f++){
+    var depH = startHour + Math.floor(r() * 3);
+    if (depH > 21) depH = 21;
+    var depM  = Math.floor(r() * 12) * 5;
+    startHour = depH + 4 + Math.floor(r() * 3);
+    if (startHour > 22) startHour = 22;
+
+    var arrH = depH + 1 + Math.floor(r() * 2);
+    var arrM = (depM + 25 + Math.floor(r() * 5) * 5) % 60;
+    if (arrH > 23) arrH = 23;
+
+    var depTime = (depH < 10 ? '0' : '') + depH + ':' + (depM < 10 ? '0' : '') + depM;
+    var arrTime = (arrH < 10 ? '0' : '') + arrH + ':' + (arrM < 10 ? '0' : '') + arrM;
+
+    var flightBasePrice = Math.round(priceHigh - f * priceStep);
+    var numTiers    = 2 + Math.floor(r() * 3);
+    var flightTiers = [];
+
+    for (var t = 0; t < numTiers; t++){
+      var tPrice = flightBasePrice + t * 30 + Math.floor(r() * 25);
+      if (tPrice > priceHigh) tPrice = priceHigh;
+      flightTiers.push({
+        name : tierNames[t % tierNames.length],
+        avail: pickAV(r),
+        price: 'CAD ' + tPrice.toLocaleString('en-CA')
+      });
+    }
+
+    flights.push({
+      num  : 700 + Math.floor(r() * 90),
+      date : label,
+      dep  : depTime + ' ' + depPortStr,
+      arr  : arrTime + ' ' + arrPortStr,
+      tiers: flightTiers
+    });
+  }
+
+  return flights;
 }
 
 function getMinPriceForDate(dateKey) {
-  var dateObj = null;
-  for (var i = 0; i < ALL_DATES.length; i++) {
-    if (ALL_DATES[i].key === dateKey) { dateObj = ALL_DATES[i].dateObj; break; }
-  }
-  var dRoute = dateObj ? getDefaultRouteForDate(dateObj.getMonth() + 1, dateObj.getDate()) : ["Port aux Basques", "Port of Montreal"];
-
-  var searchedFrom = window.bookingParams.from || dRoute[0];
-  var searchedTo = window.bookingParams.to || dRoute[1];
-
+  /* getSchedule already returns flights with the correct ports — just scan all tiers */
   var flights = getSchedule(dateKey);
-  var matching = flights.filter(function(f) {
-    var fDepPort = f.dep.slice(f.dep.indexOf(' ') + 1);
-    var fArrPort = f.arr.slice(f.arr.indexOf(' ') + 1);
-    return matchPort(searchedFrom, fDepPort) && matchPort(searchedTo, fArrPort);
-  });
-  if (matching.length === 0) return null;
-  
   var minPrice = Infinity;
-  matching.forEach(function(f) {
+  flights.forEach(function(f) {
     f.tiers.forEach(function(t) {
       if (t.avail !== AV.sold && t.avail !== AV.waitlist && t.price) {
         var num = parseInt(t.price.replace(/[^\d]/g, ''), 10);
-        if (!isNaN(num) && num < minPrice) {
-          minPrice = num;
-        }
+        if (!isNaN(num) && num < minPrice) minPrice = num;
       }
     });
   });
@@ -750,27 +730,14 @@ function getMinPriceForDate(dateKey) {
 }
 
 function renderFlights(dateKey) {
-  var dateObj = null;
-  for (var i = 0; i < ALL_DATES.length; i++) {
-    if (ALL_DATES[i].key === dateKey) { dateObj = ALL_DATES[i].dateObj; break; }
-  }
-  var dRoute = dateObj ? getDefaultRouteForDate(dateObj.getMonth() + 1, dateObj.getDate()) : ["Port aux Basques", "Port of Montreal"];
-
-  var searchedFrom = window.bookingParams.from || dRoute[0];
-  var searchedTo = window.bookingParams.to || dRoute[1];
-
+  /* getSchedule already uses bookingParams — just render everything it returns */
   var flights = getSchedule(dateKey);
-  var matchingFlights = flights.filter(function(f) {
-    var fDepPort = f.dep.slice(f.dep.indexOf(' ') + 1);
-    var fArrPort = f.arr.slice(f.arr.indexOf(' ') + 1);
-    return matchPort(searchedFrom, fDepPort) && matchPort(searchedTo, fArrPort);
-  });
-
   var body = document.getElementById('ft-body');
-  if (!matchingFlights || !matchingFlights.length) {
+  if (!flights || !flights.length) {
     body.innerHTML = '<div class="ft-no-flights">There are no schedules for the selected search.</div>';
     return;
   }
+  var matchingFlights = flights;
   var html = '';
   matchingFlights.forEach(function(f, fi) {
     var groupClass = (fi % 2 === 0) ? '' : ' odd-group';
