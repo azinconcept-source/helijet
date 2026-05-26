@@ -562,7 +562,9 @@ var STATIC_FLIGHTS = [
   { num: 871, dateKey: 'Wed, 5/27', depPort: 'Port of Victoria', arrPort: 'Port of Halifax', depTime: '09:50', arrTime: '16:35', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4500, maxPrice: 6150 },
   { num: 873, dateKey: 'Wed, 5/27', depPort: 'Port of Saint John', arrPort: 'Port of Vancouver', depTime: '13:15', arrTime: '19:40', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 4650, maxPrice: 6300 },
 
-  // 28/5 (May 28)
+  // 28/5 (May 28) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
+  { num: 881, dateKey: 'Thu, 5/28', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
+  { num: 883, dateKey: 'Thu, 5/28', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
   { num: 839, dateKey: 'Thu, 5/28', depPort: 'Port of Vancouver', arrPort: 'Port of Halifax', depTime: '06:50', arrTime: '13:30', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4600, maxPrice: 6350 },
   { num: 841, dateKey: 'Thu, 5/28', depPort: 'Port of Quebec', arrPort: 'Port of Halifax', depTime: '09:10', arrTime: '14:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4700, maxPrice: 6450 },
 
@@ -575,8 +577,12 @@ var STATIC_FLIGHTS = [
   { num: 849, dateKey: 'Sat, 5/30', depPort: 'Port of Montreal', arrPort: 'Port of Halifax', depTime: '15:40', arrTime: '20:00', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 5250, maxPrice: 7000 },
 
   // 31/5 (May 31) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2996, maxPrice: 3096 },
-  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:45', arrTime: '17:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2996, maxPrice: 3096 }
+  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3000, maxPrice: 3050 },
+  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:45', arrTime: '17:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3000, maxPrice: 3050 },
+
+  // 6/2 (June 2) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
+  { num: 885, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2996, maxPrice: 2999 },
+  { num: 887, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:45', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2996, maxPrice: 2999 }
 ];
 
 // Clean and match port names robustly, ignoring regions and types like Harbour/Ferry Terminal/Port
@@ -631,7 +637,7 @@ var ALL_ROUTES = [
 
 function getDefaultRouteForDate(dMonth, dDate) {
   /* Special dates always get Port aux Basques → Montreal */
-  if (dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 31)) {
+  if ((dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 28 || dDate === 31)) || (dMonth === 6 && dDate === 2)) {
     return ALL_ROUTES[0];
   }
   /* Other dates rotate through the list deterministically (skip index 0) */
@@ -654,11 +660,12 @@ function getSchedule(dateKey){
   var depPortStr = (window.bookingParams && window.bookingParams.from && window.bookingParams.from !== "Select Departure" && window.bookingParams.from !== "Departure Location") ? window.bookingParams.from : baseRoute[0];
   var arrPortStr = (window.bookingParams && window.bookingParams.to && window.bookingParams.to !== "Select Arrival" && window.bookingParams.to !== "Arrival Location") ? window.bookingParams.to : baseRoute[1];
 
-  /* Enforce: Port aux Basques should only be listed on 24/5, 26/5, 31/5 */
+  /* Enforce: Port aux Basques should only be listed on May 24, 26, 28, 31, and June 2 */
   var isBasquesRoute = (depPortStr.indexOf('Basques') !== -1 || arrPortStr.indexOf('Basques') !== -1);
   if (isBasquesRoute) {
-    var isAllowedDate = (dateKey.indexOf('5/24') !== -1 || dateKey.indexOf('5/26') !== -1 || dateKey.indexOf('5/31') !== -1);
-    if (!isAllowedDate) {
+    var parts = dateKey.split(', ')[1];
+    var allowedDates = ['5/24', '5/26', '5/28', '5/31', '6/2'];
+    if (allowedDates.indexOf(parts) === -1) {
       return [];
     }
   }
