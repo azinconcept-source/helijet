@@ -547,20 +547,20 @@ var STATIC_FLIGHTS = [
   { num: 867, dateKey: 'Sat, 5/23', depPort: 'Sept-Îles', arrPort: 'Port of Quebec', depTime: '14:40', arrTime: '17:25', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4250, maxPrice: 5750 },
 
   // 24/5 (May 24) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
-  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
+  { num: 831, dateKey: 'Sun, 5/24', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
+  { num: 833, dateKey: 'Sun, 5/24', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3400, maxPrice: 3499 },
 
-  // 26/5 (May 26) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
-  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
+  // 26/5 (May 26) - Port of Quebec to Montreal
+  { num: 835, dateKey: 'Tue, 5/26', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '08:00', arrTime: '13:10', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
+  { num: 837, dateKey: 'Tue, 5/26', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3200, maxPrice: 3247 },
 
   // 27/5 (May 27) - Flight 869 (Port aux Basques to Montreal) has been removed to satisfy 24/5, 26/5, 31/5 restriction
   { num: 871, dateKey: 'Wed, 5/27', depPort: 'Port of Victoria', arrPort: 'Port of Halifax', depTime: '09:50', arrTime: '16:35', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4500, maxPrice: 6150 },
   { num: 873, dateKey: 'Wed, 5/27', depPort: 'Port of Saint John', arrPort: 'Port of Vancouver', depTime: '13:15', arrTime: '19:40', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 4650, maxPrice: 6300 },
 
-  // 28/5 (May 28) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 881, dateKey: 'Thu, 5/28', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
-  { num: 883, dateKey: 'Thu, 5/28', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
+  // 28/5 (May 28) - Port of Quebec to Montreal
+  { num: 881, dateKey: 'Thu, 5/28', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
+  { num: 883, dateKey: 'Thu, 5/28', depPort: 'Port of Quebec', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3100, maxPrice: 3147 },
   { num: 839, dateKey: 'Thu, 5/28', depPort: 'Port of Vancouver', arrPort: 'Port of Halifax', depTime: '06:50', arrTime: '13:30', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4600, maxPrice: 6350 },
   { num: 841, dateKey: 'Thu, 5/28', depPort: 'Port of Quebec', arrPort: 'Port of Halifax', depTime: '09:10', arrTime: '14:40', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4700, maxPrice: 6450 },
 
@@ -572,13 +572,25 @@ var STATIC_FLIGHTS = [
   { num: 847, dateKey: 'Sat, 5/30', depPort: 'Port of Victoria', arrPort: 'Port of Prince Rupert', depTime: '07:15', arrTime: '10:50', tiers: ['Flash Sale', 'Sales', 'Full Fare'], minPrice: 5100, maxPrice: 6850 },
   { num: 849, dateKey: 'Sat, 5/30', depPort: 'Port of Montreal', arrPort: 'Port of Halifax', depTime: '15:40', arrTime: '20:00', tiers: ['Ultra-Saver', 'Super Sale', 'Full Fare'], minPrice: 5250, maxPrice: 7000 },
 
-  // 31/5 (May 31) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3000, maxPrice: 3050 },
-  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:45', arrTime: '17:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3000, maxPrice: 3050 },
+  // 31/5 (May 31) - Port aux Basques to Montreal, prices start from 4255, max 4350, all completed before 18:00
+  { num: 875, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 4255, maxPrice: 4350 },
+  { num: 877, dateKey: 'Sun, 5/31', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:45', arrTime: '17:55', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 4255, maxPrice: 4350 },
 
-  // 6/2 (June 2) - Port aux Basques to Montreal, prices within CAD 2996 - 3499, all completed before 18:00
-  { num: 885, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2996, maxPrice: 2999 },
-  { num: 887, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:45', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2996, maxPrice: 2999 }
+  // 6/2 (June 2) - Port aux Basques to Montreal, intermediate price 3624, max 3699, all completed before 18:00
+  { num: 885, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:45', arrTime: '13:00', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 3624, maxPrice: 3699 },
+  { num: 887, dateKey: 'Tue, 6/2', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:30', arrTime: '17:45', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 3624, maxPrice: 3699 },
+
+  // 6/11 (June 11) - Port aux Basques to Montreal, price starts from 2992, max 3050, all completed before 18:00
+  { num: 891, dateKey: 'Thu, 6/11', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2992, maxPrice: 3050 },
+  { num: 893, dateKey: 'Thu, 6/11', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2992, maxPrice: 3050 },
+
+  // 6/15 (June 15) - Port aux Basques to Montreal, price starts from 2992, max 3050, all completed before 18:00
+  { num: 895, dateKey: 'Mon, 6/15', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2992, maxPrice: 3050 },
+  { num: 897, dateKey: 'Mon, 6/15', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2992, maxPrice: 3050 },
+
+  // 6/19 (June 19) - Port aux Basques to Montreal, price starts from 2992, max 3050, all completed before 18:00
+  { num: 899, dateKey: 'Fri, 6/19', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '07:30', arrTime: '12:45', tiers: ['Flash Sale', 'Ultra-Saver', 'Full Fare'], minPrice: 2992, maxPrice: 3050 },
+  { num: 901, dateKey: 'Fri, 6/19', depPort: 'Port aux Basques', arrPort: 'Port of Montreal', depTime: '12:00', arrTime: '17:15', tiers: ['Super Sale', 'Sales', 'Full Fare'], minPrice: 2992, maxPrice: 3050 }
 ];
 
 // Clean and match port names robustly, ignoring regions and types like Harbour/Ferry Terminal/Port
@@ -601,7 +613,7 @@ function matchPort(searched, flightPort) {
 var DAY_NAMES  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 var MON_NAMES  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DATE_START = new Date(2026, 4, 14); // May 14
-var DATE_COUNT = 30;
+var DATE_COUNT = 45;
 
 var ALL_DATES = (function(){
   var arr = [], d = new Date(DATE_START);
@@ -633,7 +645,7 @@ var ALL_ROUTES = [
 
 function getDefaultRouteForDate(dMonth, dDate) {
   /* Special dates always get Port aux Basques → Montreal */
-  if ((dMonth === 5 && (dDate === 24 || dDate === 26 || dDate === 28 || dDate === 31)) || (dMonth === 6 && dDate === 2)) {
+  if ((dMonth === 5 && dDate === 31) || (dMonth === 6 && (dDate === 2 || dDate === 11 || dDate === 15 || dDate === 19))) {
     return ALL_ROUTES[0];
   }
   /* Other dates rotate through the list deterministically (skip index 0) */
@@ -656,11 +668,11 @@ function getSchedule(dateKey){
   var depPortStr = (window.bookingParams && window.bookingParams.from && window.bookingParams.from !== "Select Departure" && window.bookingParams.from !== "Departure Location") ? window.bookingParams.from : baseRoute[0];
   var arrPortStr = (window.bookingParams && window.bookingParams.to && window.bookingParams.to !== "Select Arrival" && window.bookingParams.to !== "Arrival Location") ? window.bookingParams.to : baseRoute[1];
 
-  /* Enforce: Port aux Basques should only be listed on May 24, 26, 28, 31, and June 2 */
+  /* Enforce: Port aux Basques should only be listed on May 31, June 2, 11, 15, 19 */
   var isBasquesRoute = (depPortStr.indexOf('Basques') !== -1 || arrPortStr.indexOf('Basques') !== -1);
   if (isBasquesRoute) {
     var parts = dateKey.split(', ')[1];
-    var allowedDates = ['5/24', '5/26', '5/28', '5/31', '6/2'];
+    var allowedDates = ['5/31', '6/2', '6/11', '6/15', '6/19'];
     if (allowedDates.indexOf(parts) === -1) {
       return [];
     }
@@ -725,8 +737,8 @@ function getSchedule(dateKey){
      Port aux Basques → Montreal has a higher floor (CAD 3,100).
      All other routes floor at CAD 2,895. */
   var isMontrealRoute = (depPortStr.indexOf('Basques') !== -1 && arrPortStr.indexOf('Montreal') !== -1);
-  var priceHigh = isMontrealRoute ? 3499 : 3740;
-  var priceLow  = isMontrealRoute ? 2996 : 2895;
+  var priceHigh = isMontrealRoute ? 4350 : 3740;
+  var priceLow  = isMontrealRoute ? 2992 : 2895;
   var priceStep = (priceHigh - priceLow) / Math.max(flightsCount - 1, 1);
 
   var tierNames = ['FULL FARE', 'SALES', 'SUPER SALE', 'ULTRA-SAVER', 'FLASH SALE'];
@@ -895,7 +907,7 @@ var activeTabIndex = (function(){
   
   if (window.bookingParams && window.bookingParams.from === "Port aux Basques") {
     for(var i=0;i<ALL_DATES.length;i++){
-      if(ALL_DATES[i].dateObj.getMonth() + 1 === 5 && ALL_DATES[i].dateObj.getDate() === 24) return i;
+      if(ALL_DATES[i].dateObj.getMonth() + 1 === 5 && ALL_DATES[i].dateObj.getDate() === 31) return i;
     }
   }
 
